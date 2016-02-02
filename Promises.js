@@ -56,7 +56,6 @@ exports.getPathType = function(Path){
     });
 }
  */
-
 //get directory type is below
 
 
@@ -108,7 +107,6 @@ exports.getDirectoryTypes = function(path, depth, filter) {
                 });
         });
 }
-
 var fileName = "F:/IT410/PracticeProjects/sized-files/small.txt";
 //var fileName = 123;
 exists(fileName);
