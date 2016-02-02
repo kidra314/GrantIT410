@@ -1,55 +1,114 @@
 /**
  * Created by Grant on 1/25/2016.
  */
-const fs = require('fs')
-//this function receives a path name and says whether it points to a file, directory, or other
+const fs = require('fs');
+const Promise = require('bluebird');
+var Path = require('path');
 
-/*exports.*/ getPathType = function(Path){
+exports.getPathType = function(Path){
+    if (typeof Path != "string"){
+        return Promise.reject();
+    }
+
     return new Promise(function(resolve, reject){
-
         var returnVal;
 
         if(typeof Path != "string"){
-            throw new Error("Path was not a string");
+            reject("Path was not a string");
+            return;
         }
 
         fs.stat(Path, function(err, stats){
             if(err){
-                //console.log("nothing");
+                console.log("nothing");
                 returnVal = "nothing";
             }
             else if(stats.isFile())
             {
-                //console.log("it's a file");
+                console.log("it's a file");
                 returnVal = "file";
             }
             else if(stats.isDirectory()){
                 returnVal = "directory";
-                //console.log("directory");
             }
 
             else{
-                //console.log("Something Else");
-                returnVal = "Something Else";
+                console.log("Something Else")
             }
             resolve(returnVal);
         });
     })
 }
+/**************************************************************************************
 
 
-
-
-exists = function(myPath) {
-  return new Promise(function(Path){
-    var returnVal;
-      getPathType(myPath).then(function(currentPath){
-          console.log("currentPath is currently a: " + currentPath);
-          returnVal = currentPath;
+ exports.exists = function(myPath) {
+    return new Promise(function(Path){
+        exports.getPathType(myPath).then(function(currentPath){
+            console.log("currentPath is currently a: " + currentPath);
+            if(currentPath != "nothing"){
+                resolve(true);
+            }
+            else{
+               return Promise.reject();
+            }
         });
-});
+    });
+}
+ */
+
+//get directory type is below
+
+
+
+
+exports.readdir = function(path) {
+    return exports.getPathType(path)
+        .then(function(type) {
+            if (type !== 'directory') throw Error('Not a directory');
+            return new Promise(function(resolve, reject) {
+                fs.readdir(path, function(err, files) {
+                    if (err) return reject(err);
+                    return resolve(files);
+                });
+            });
+        });
+};
+
+exports.getDirectoryTypes = function(path, depth, filter) {
+    var result = {};
+
+    if (arguments.length < 2) depth = -1;
+    if (arguments.length < 3) filter = function() { return true };
+
+    if(typeof depth != "integer"){
+        return Promise.reject();
+    }
+
+    return exports.readdir(path)
+        .then(function(files) {
+            var promises = [];
+            files.forEach(function(file) {
+                var fullPath = Path.resolve(path, file);
+                var promise = exports.getPathType(fullPath)
+                    .then(function(type) {
+                        if (filter(path, type)) result[fullPath] = type;
+                        if (type === 'directory' && depth !== 0) {
+                            return exports.getDirectoryTypes(fullPath, depth - 1, filter)
+                                .then(function(map) {
+                                    Object.assign(result, map);
+                                });
+                        }
+                    });
+                promises.push(promise);
+            });
+            return Promise.all(promises)
+                .then(function() {
+                    return result;
+                });
+        });
 }
 
-//var fileName = "F:/IT410/PracticeProjects/sized-files/small.txt";
-var fileName = 123;
+var fileName = "F:/IT410/PracticeProjects/sized-files/small.txt";
+//var fileName = 123;
 exists(fileName);
