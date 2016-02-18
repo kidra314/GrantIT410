@@ -1,6 +1,7 @@
 /**
  * Created by Grant on 1/25/2016.
  */
+// uncomment the code below to see a test pass
 const fs = require('fs');
 const Promise = require('bluebird');
 var Path = require('path');
@@ -39,26 +40,9 @@ exports.getPathType = function(Path){
         });
     })
 }
-/**************************************************************************************
 
 
- exports.exists = function(myPath) {
-    return new Promise(function(Path){
-        exports.getPathType(myPath).then(function(currentPath){
-            console.log("currentPath is currently a: " + currentPath);
-            if(currentPath != "nothing"){
-                resolve(true);
-            }
-            else{
-               return Promise.reject();
-            }
-        });
-    });
-}
- */
 //get directory type is below
-
-
 
 
 exports.readdir = function(path) {
@@ -80,7 +64,7 @@ exports.getDirectoryTypes = function(path, depth, filter) {
     if (arguments.length < 2) depth = -1;
     if (arguments.length < 3) filter = function() { return true };
 
-    if(typeof depth != "integer"){
+    if(typeof depth != "number"){
         return Promise.reject();
     }
 
@@ -98,6 +82,9 @@ exports.getDirectoryTypes = function(path, depth, filter) {
                                     Object.assign(result, map);
                                 });
                         }
+                        else {
+                            console.log("Type is: " + type + " jjj");
+                        }
                     });
                 promises.push(promise);
             });
@@ -107,6 +94,24 @@ exports.getDirectoryTypes = function(path, depth, filter) {
                 });
         });
 }
-var fileName = "F:/IT410/PracticeProjects/sized-files/small.txt";
-//var fileName = 123;
-exists(fileName);
+
+
+//****************exists function
+exports.exists = function(Path){
+    var result;
+    if (typeof Path != "string"){
+        return Promise.reject();
+    }
+
+    return new Promise(function(resolve, reject){
+        exports.getPathType(Path).then(function(currentPath){
+            if(currentPath != "nothing"){
+                resolve(true);
+            }
+            else{
+                resolve(false);
+            }
+        });
+    });
+
+}
