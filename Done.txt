@@ -2,4 +2,4 @@ file system promises - not done yet
 static file server - Mostly done, but may return to it once I finish the final aspect
 user management system - not done yet
 user management web services - not done yet
-gulpfile - not done yet
+gulpfile - Done for now, but may return to it later
