@@ -1,4 +1,12 @@
 <!doctype html>
+<% var imgNum = url.substring(2,6);
+    if (imgNum == ""){
+        imgNum = "0004";
+    }
+    var comicImg = "/images/AgentBishop_" + imgNum + ".jpg";
+    var nextNumURL = "/?000" + (Number(imgNum) + 1);
+    var prevNumURL = "/?000" + (Number(imgNum) - 1);
+%>
 <html>
 <head>
     <title>Agent Bishop</title>
@@ -10,10 +18,16 @@
 </head>
 <body>
 <div class="container">
-    <h1></span>Agent Bishop</h1>
+    <h1></span>Agent Bishop <%= imgNum %></h1>
 
-    <img src="/images/AgentBishop_0001.jpg">
+    <% if(Number(imgNum) > 1) { %>
+    <a href="<%= prevNumURL%>" class="btn btn-default btn-sm"><</a>
+    <% } %>
 
+    <img src="<%= comicImg%>">
+    <% if(Number(imgNum) < 4) { %>
+    <a href="<%= nextNumURL%>" class="btn btn-default btn-sm">></a>
+    <% } %>
 </div>
 
 </body>

@@ -4,6 +4,6 @@
 module.exports = {
 
     //'url' : 'C:/Program Files/MongoDB/Server/3.2/bin/mongo'
-    //'url' : "mongodb://C:/Program Files/MongoDB/Server/3.2/bin/mongo"
+    'url' : "mongodb://localhost/Mongo/bin/mongo"
 
 };
