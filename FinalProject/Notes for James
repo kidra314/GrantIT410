@@ -1,0 +1,17 @@
+Hey James. I have some stuff in here that doesn't work, but I'm keeping it in because hopefully I can get it to work
+later on, even if I won't get graded on it. So here's notes for all the stuff (I think) that is in my code, but
+isn't currently working.
+--------------------------------------------------------------------------------------------------------------------
+addcomic: this works, but only for the database stuff. Currently the only way to add a new image for a comic is to
+put an image into the images folder, and then you can use the addcomic page to insert the info into the database
+
+editComment: Not currently working, so I've commented out the submit button on the form.
+
+-------------------------------------------------------------------------------------------------------------------
+
+I think that's it, but I wouldn't be surprised if there's other stuff I've forgotten about. Feel free to email or
+call me (801-854-0773) if you have any questions or concerns. I think I've set it up so that all you need to do is
+run npm install, and then node server.js to start it, but let me know if you have issues getting things going.
+
+Thanks for all you did this semester!
+

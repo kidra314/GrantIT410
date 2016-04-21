@@ -15,14 +15,21 @@
     <!--<a href="editComic">Edit Comic</a>-->
 
     <% myComicList.forEach(function( comic) { %>
-    <ul>
-        <li><%= comic.comicNum %></li>
+
         <% var comicURL = "/images/AgentBishop_" + comic.comicNum + ".jpg";%>
         <li><img src = "<%=comicURL%>"></li>
-        <li><textarea><%=comic.comment%></textarea></li>
-    </ul>
-        <% }) %>
 
+    <form action="/editComment" method="POST">
+        <label for="comicNum">Comic Number     :
+        </label><input type="text" name="comicNum" value="<%= comic.comicNum %>"/> <br>
+        <label for="comment">Author Comment   :
+        </label><input type="text" name="comment" value="<%= comic.comment %>"/> <br>
+        <label for="published">Published? :
+        </label><input type="text" name="published" value ="<%= comic.published %>"/> <br>
+        <!--<input type="submit"/>-->
+
+        <% }) %>
+    </form>
     <a href="/logout" class="btn btn-default btn-sm">Logout</a>
 </div>
 

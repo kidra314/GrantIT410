@@ -6,7 +6,7 @@ var mongoose = require('mongoose');
 var configDB = require('../config/database.js');
 var userSchema = require('./models/user.js');
 var abComics = require('./models/comics.js');
-
+var configDB = require('../config/database.js');
 
 module.exports = function(app, passport) {
 
@@ -96,6 +96,7 @@ module.exports = function(app, passport) {
         res.redirect('/');
     });
 
+    //this is to add the info for another comic
     app.get('/addcomic', function(req,res) {
         res.render('addcomic.ejs');
     });
@@ -111,6 +112,16 @@ module.exports = function(app, passport) {
             else    res.render('admin.ejs');
         });
     });
+
+    app.post('/editComment', function(req, res){
+        console.log(req.body.comicNum);
+        abComics.update(
+            { comicNum: req.body.comicNum },
+            {
+                 comment: req.body.comment  , published :  req.body.published
+            }
+        )
+    })
 };
 
 // route middleware to make sure a user is logged in
