@@ -5,8 +5,8 @@ var express  = require('express');
 var mongoose = require('mongoose');
 var configDB = require('../config/database.js');
 var userSchema = require('./models/user.js');
+var abComics = require('./models/comics.js');
 
-//mongoose.connect(configDB.url); // connect to our database
 
 module.exports = function(app, passport) {
 
@@ -52,25 +52,40 @@ module.exports = function(app, passport) {
         failureFlash : true // allow flash messages
     }));
 
-    //in order to see this page you need to be logged in
+    ////in order to see this page you need to be logged in
+    //app.get('/admin', isLoggedIn, function(req, res) {
+    //    userSchema.find({}, function(err, usrs){
+    //        console.log("something happened");
+    //        console.log(usrs);
+    //        renderResults(res, usrs, isLoggedIn, req, "User List from MongoDB :");
+    //    })
+    //
+    //});
+    ////the results for the admin page
+    //function renderResults(res, usrs, isLoggedIn, req, msg){
+    //    res.render('admin.ejs', {
+    //        user : req.user,
+    //        message:msg,
+    //        myUserList: usrs}
+    //    );
+    //}
+//in order to see this page you need to be logged in
     app.get('/admin', isLoggedIn, function(req, res) {
-        userSchema.find({}, function(err, usrs){
+        abComics.find({}, function(err, abComics){
             console.log("something happened");
-            console.log(usrs);
-            renderResults(res, usrs, isLoggedIn, req, "User List from MongoDB :");
+            console.log(abComics);
+            renderResults(res, abComics, isLoggedIn, req, "Comic List from MongoDB :");
         })
 
     });
     //the results for the admin page
-    function renderResults(res, usrs, isLoggedIn, req, msg){
+    function renderResults(res, abComics, isLoggedIn, req, msg){
         res.render('admin.ejs', {
             user : req.user,
             message:msg,
-            myUserList: usrs}
-
+            myComicList: abComics}
         );
     }
-
 
 
     // =====================================
@@ -79,6 +94,22 @@ module.exports = function(app, passport) {
     app.get('/logout', function(req, res) {
         req.logout();
         res.redirect('/');
+    });
+
+    app.get('/addcomic', function(req,res) {
+        res.render('addcomic.ejs');
+    });
+
+    app.post('/new', function(req, res){
+        new abComics({
+            comicNum : req.body.comicNum,
+            comment  : req.body.comment,
+            published   : req.body.published
+        }).save(function(err, prd){
+            if(err) res.json(err);
+            //else    res.send("Comic Successfully Added !");
+            else    res.render('admin.ejs');
+        });
     });
 };
 

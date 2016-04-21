@@ -11,11 +11,18 @@
 <body>
 <div class="container">
     <h1></span>Agent Bishop Admin</h1>
+    <a href="addComic">Add Comic</a>
+    <!--<a href="editComic">Edit Comic</a>-->
+
+    <% myComicList.forEach(function( comic) { %>
     <ul>
-    <% myUserList.forEach(function( usr) { %>
-    <li><%=usr.email%></li>
-        <% }) %>
+        <li><%= comic.comicNum %></li>
+        <% var comicURL = "/images/AgentBishop_" + comic.comicNum + ".jpg";%>
+        <li><img src = "<%=comicURL%>"></li>
+        <li><textarea><%=comic.comment%></textarea></li>
     </ul>
+        <% }) %>
+
     <a href="/logout" class="btn btn-default btn-sm">Logout</a>
 </div>
 
