@@ -1,6 +1,13 @@
 /**
  * Created by Grant on 4/9/2016.
  */
+var express  = require('express');
+var mongoose = require('mongoose');
+var configDB = require('../config/database.js');
+var userSchema = require('./models/user.js');
+
+//mongoose.connect(configDB.url); // connect to our database
+
 module.exports = function(app, passport) {
 
     // =====================================
@@ -47,10 +54,24 @@ module.exports = function(app, passport) {
 
     //in order to see this page you need to be logged in
     app.get('/admin', isLoggedIn, function(req, res) {
-        res.render('admin.ejs', {
-            user : req.user // get the user out of session and pass to template
-        });
+        userSchema.find({}, function(err, usrs){
+            console.log("something happened");
+            console.log(usrs);
+            renderResults(res, usrs, isLoggedIn, req, "User List from MongoDB :");
+        })
+
     });
+    //the results for the admin page
+    function renderResults(res, usrs, isLoggedIn, req, msg){
+        res.render('admin.ejs', {
+            user : req.user,
+            message:msg,
+            myUserList: usrs}
+
+        );
+    }
+
+
 
     // =====================================
     // LOGOUT ==============================

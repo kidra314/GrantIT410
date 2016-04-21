@@ -11,6 +11,11 @@
 <body>
 <div class="container">
     <h1></span>Agent Bishop Admin</h1>
+    <ul>
+    <% myUserList.forEach(function( usr) { %>
+    <li><%=usr.email%></li>
+        <% }) %>
+    </ul>
     <a href="/logout" class="btn btn-default btn-sm">Logout</a>
 </div>
 

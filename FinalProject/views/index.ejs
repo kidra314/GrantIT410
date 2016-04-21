@@ -19,14 +19,14 @@
 <body>
 <div class="container">
     <h1></span>Agent Bishop <%= imgNum %></h1>
-
+    <a href="/admin">Admin</a>
     <% if(Number(imgNum) > 1) { %>
-    <a href="<%= prevNumURL%>" class="btn btn-default btn-sm"><</a>
+    <a href="<%= prevNumURL%>" class="btn btn-default btn-large"><</a>
     <% } %>
 
     <img src="<%= comicImg%>">
     <% if(Number(imgNum) < 4) { %>
-    <a href="<%= nextNumURL%>" class="btn btn-default btn-sm">></a>
+    <a href="<%= nextNumURL%>" class="btn btn-default btn-large">></a>
     <% } %>
 </div>
 
